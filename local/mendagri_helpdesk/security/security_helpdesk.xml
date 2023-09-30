@@ -1,0 +1,59 @@
+<odoo>
+
+    <record model="ir.module.category" id="module_category_helpdesk_mendagri">
+        <field name="name">Helpdesk Mendagri</field>
+        <field name="description">Helpdesk Mendagri Access Groups</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="helpdesk_mendagri_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="mendagri_helpdesk.module_category_helpdesk_mendagri"/>
+    </record>
+
+    <record id="helpdesk_mendagri_customer_service" model="res.groups">
+        <field name="name">Customer Service</field>
+        <field name="category_id" ref="mendagri_helpdesk.module_category_helpdesk_mendagri"/>
+        <field name="implied_ids" eval="[(4, ref('mendagri_helpdesk.helpdesk_mendagri_user'))]"/>
+    </record>
+
+    <record id="helpdesk_mendagri_supervisor" model="res.groups">
+        <field name="name">Supervisor</field>
+        <field name="category_id" ref="mendagri_helpdesk.module_category_helpdesk_mendagri"/>
+        <field name="implied_ids" eval="[(4, ref('mendagri_helpdesk.helpdesk_mendagri_customer_service'))]"/>
+    </record>
+
+    <record id="helpdesk_mendagri_admin" model="res.groups">
+        <field name="name">Admin</field>
+        <field name="category_id" ref="mendagri_helpdesk.module_category_helpdesk_mendagri"/>
+        <field name="implied_ids" eval="[(4, ref('mendagri_helpdesk.helpdesk_mendagri_supervisor'))]"/>
+    </record>
+
+    <record id="helpdesk_mendagri_admin_rule"
+            model="ir.rule">
+        <field name="name">Record Rule for mendagri helpdesk admin</field>
+        <field ref="model_help_ticket" name="model_id"/>
+        <field name="groups"
+               eval="[(4, ref('mendagri_helpdesk.helpdesk_mendagri_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="helpdesk_mendagri_user_rule"
+            model="ir.rule">
+        <field name="name">Record Rule for mendagri helpdesk user</field>
+        <field ref="model_help_ticket" name="model_id"/>
+        <field name="groups"
+               eval="[(4, ref('mendagri_helpdesk.helpdesk_mendagri_user'))]"/>
+        <field name="domain_force">[('employee_id', '=', user.employee_id.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+
+</odoo>
