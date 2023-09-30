@@ -1,0 +1,137 @@
+<odoo>
+    <!-- Helpdesk Kanban -->
+    <record id="view_helpdesk_kanban_user_inherit" model="ir.ui.view">
+        <field name="name">Help Ticket Kanban Mendagri User Inherit</field>
+        <field name="model">help.ticket</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="odoo_website_helpdesk.view_helpdesk_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="records_draggable">false</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_helpdesk_kanban_supervisor_inherit" model="ir.ui.view">
+        <field name="name">Help Ticket Kanban Mendagri Supervisor Inherit</field>
+        <field name="model">help.ticket</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="odoo_website_helpdesk.view_helpdesk_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="records_draggable">true</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Helpdesk Tree -->
+    <record id="view_helpdesk_tree_inherit" model="ir.ui.view">
+        <field name="name">help.ticket.tree.inherit</field>
+        <field name="model">help.ticket</field>
+        <field name="inherit_id" ref="odoo_website_helpdesk.view_helpdesk_tree"/>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="customer_name"/>
+                <field name="subject"/>
+                <field name="email"/>
+                <field name="stage_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Helpdesk Form -->
+    <record id="view_helpdesk_form_inherit" model="ir.ui.view">
+        <field name="name">Help Ticket Form Inherit</field>
+        <field name="model">help.ticket</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="odoo_website_helpdesk.view_helpdesk_form"/>
+        <field name="arch" type="xml">
+            <field name="customer_id" position="after">
+                <field name="employee_id" readonly="1" force_save="1"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Action Window -->
+
+    <!-- Action Window User -->
+    <record model="ir.actions.act_window" id="action_helpdesk_mendagri_user">
+        <field name="name">Action Help Ticket Helpdesk Mendagri User</field>
+        <field name="res_model">help.ticket</field>
+        <field name="domain">[('employee_id.user_id','=',uid)]</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_helpdesk_mendagri_user_kanban">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="mendagri_helpdesk.view_helpdesk_kanban_user_inherit"/>
+        <field name="act_window_id" ref="action_helpdesk_mendagri_user"/>
+    </record>
+
+    <!-- Action Window Supervisor -->
+    <record model="ir.actions.act_window" id="action_helpdesk_mendagri_supervisor">
+        <field name="name">Action Help Ticket Helpdesk Mendagri Supervisor</field>
+        <field name="res_model">help.ticket</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_helpdesk_mendagri_supervisor_kanban">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="mendagri_helpdesk.view_helpdesk_kanban_supervisor_inherit"/>
+        <field name="act_window_id" ref="action_helpdesk_mendagri_supervisor"/>
+    </record>
+
+    <!-- Mendagri Helpdesk Main Menu -->
+    <menuitem id="mendagri_helpdesk_parent_menu" name="Mendagri Helpdesk"
+              action="odoo_website_helpdesk.helpdesk_dashboard_action"
+              sequence="10"/>
+    <!-- Ticketing Parent Menu -->
+    <menuitem id="mendagri_ticketing_parent_menu" name="Tickets"
+              parent="mendagri_helpdesk_parent_menu" sequence="10"/>
+    <menuitem id="mendagri_my_ticket_menu" name="My Ticket" sequence="10"
+              parent="mendagri_ticketing_parent_menu"
+              groups="mendagri_helpdesk.helpdesk_mendagri_user"
+              action="action_helpdesk_mendagri_user"/>
+    <menuitem id="mendagri_all_ticket_menu" name="All Tickets"
+              sequence="20" parent="mendagri_ticketing_parent_menu"
+              action="mendagri_helpdesk.action_helpdesk_mendagri_supervisor"
+              groups="mendagri_helpdesk.helpdesk_mendagri_customer_service,mendagri_helpdesk.helpdesk_mendagri_supervisor,mendagri_helpdesk.helpdesk_mendagri_admin"/>
+    <!-- Discuss Parent Menu -->
+    <menuitem id="mendagri_discuss_menu" name="Discuss" action="mail.action_discuss"
+              sequence="20" parent="mendagri_helpdesk_parent_menu"/>
+    <!-- Live Chat Parent Menu -->
+    <menuitem id="mendagri_live_chat_parent_menu" name="Live Chat" sequence="30"
+              parent="mendagri_helpdesk_parent_menu"/>
+    <!-- Channels Sub Menu -->
+    <menuitem id="live_chat_channels_menu" name="Channels" sequence="10"
+              parent="mendagri_live_chat_parent_menu"
+              action="im_livechat.im_livechat_channel_action"/>
+    <!-- Visitors Sub Menu -->
+    <menuitem id="live_chat_visitors_menu" name="Visitors" sequence="20"
+              parent="mendagri_live_chat_parent_menu"
+              action="website.website_visitors_action"/>
+    <!-- Report Sub Menu -->
+    <menuitem id="live_chat_report_menu" name="Report" sequence="30"
+              parent="mendagri_live_chat_parent_menu"/>
+    <menuitem id="live_chat_session_history_menu" name="Session History"
+              sequence="10" parent="live_chat_report_menu"
+              action="im_livechat.mail_channel_action"/>
+    <menuitem id="live_chat_operator_analysis_menu" name="Operator Analysis"
+              sequence="20" parent="live_chat_report_menu"
+              action="im_livechat.im_livechat_report_operator_action"/>
+    <!-- Configuration Sub Menu -->
+    <menuitem id="live_chat_configuration_menu" name="Configuration" sequence="40"
+              parent="mendagri_live_chat_parent_menu"/>
+    <menuitem id="live_chat_canned_responses_menu" name="Canned Responses"
+              sequence="10" parent="live_chat_configuration_menu"
+              action="im_livechat.im_livechat_canned_response_action"/>
+    <menuitem id="live_chat_chatbots_menu" name="Chatbots"
+              sequence="20" parent="live_chat_configuration_menu"
+              action="im_livechat.chatbot_script_action"/>
+    <!-- Bot Parent Menu -->
+
+</odoo>

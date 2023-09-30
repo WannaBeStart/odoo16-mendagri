@@ -6,9 +6,12 @@
     Bill can be created for ticket with service cost""",
     'author': "WannaBeStart",
     'category': 'Website',
-    'depends': ['odoo_website_helpdesk', 'odoo_website_helpdesk_dashboard'],
+    'depends': ['odoo_website_helpdesk', 'odoo_website_helpdesk_dashboard', 'base'],
     'data': [
-
+        'security/security_helpdesk.xml',
+        'security/ir.model.access.csv',
+        'views/mendagri_helpdesk_menu_view.xml',
+        'views/res_users_view.xml',
     ],
     'assets': {
 

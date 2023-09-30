@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_help_ticket_mendagri_user,access.help.ticket.mendagri.user,model_help_ticket,mendagri_helpdesk.helpdesk_mendagri_user,1,0,1,1
+access_help_ticket_mendagri_customer_service,access.help.ticket.mendagri.customer.service,model_help_ticket,mendagri_helpdesk.helpdesk_mendagri_customer_service,1,1,1,1
+access_help_ticket_mendagri_supervisor,access.help.ticket.mendagri.supervisor,model_help_ticket,mendagri_helpdesk.helpdesk_mendagri_supervisor,1,1,1,1
+access_help_ticket_mendagri_admin,access.help.ticket.mendagri.supervisor,model_help_ticket,mendagri_helpdesk.helpdesk_mendagri_admin,1,1,1,1
+
+access_help_ticket_stage_mendagri_user,access.help.ticket.stage.mendagri.user,model_ticket_stage,mendagri_helpdesk.helpdesk_mendagri_user,1,0,1,1
+access_help_ticket_stage_mendagri_customer_service,access.help.ticket.stage.mendagri.customer.service,model_ticket_stage,mendagri_helpdesk.helpdesk_mendagri_customer_service,1,1,1,1
+access_help_ticket_stage_mendagri_supervisor,access.help.ticket.stage.mendagri.supervisor,model_ticket_stage,mendagri_helpdesk.helpdesk_mendagri_supervisor,1,1,1,1
+access_help_ticket_stage_mendagri_admin,access.help.ticket.stage.mendagri.supervisor,model_ticket_stage,mendagri_helpdesk.helpdesk_mendagri_admin,1,1,1,1
